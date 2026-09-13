@@ -1,4 +1,4 @@
-name: Build Executable
+name: Build Executable for Windows 7
 
 on:
   push:
@@ -6,21 +6,21 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Setup Python 3.8 (Win7 Compatible)
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.8'
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pyinstaller pywebview
+          pip install "pyinstaller<6.0" pywebview
           if (Test-Path requirements.txt) { pip install -r requirements.txt }
 
       - name: Build EXE
@@ -30,5 +30,5 @@ jobs:
       - name: Upload EXE Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: My-Desktop-App
+          name: My-Desktop-App-Win7
           path: dist/*.exe
